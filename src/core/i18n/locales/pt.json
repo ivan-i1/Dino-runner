@@ -1,0 +1,88 @@
+{
+  "common": {
+    "back": "Voltar",
+    "close": "Fechar",
+    "cancel": "Cancelar",
+    "ok": "OK",
+    "retry": "Tentar novamente",
+    "loading": "Carregando…",
+    "reset": "Restaurar padrões"
+  },
+  "home": {
+    "title": "Dino-runner",
+    "subtitle": "Um ponto de partida para novos apps: escolha uma demo para ver cada módulo funcionando.",
+    "demos": "Demos",
+    "settings": "Configurações",
+    "about": "Sobre"
+  },
+  "settings": {
+    "title": "Configurações",
+    "language": "Idioma",
+    "languageSystem": "Idioma do dispositivo",
+    "theme": "Tema",
+    "themeSystem": "Dispositivo",
+    "themeLight": "Claro",
+    "themeDark": "Escuro",
+    "sound": "Som",
+    "vibration": "Vibração",
+    "volume": "Volume"
+  },
+  "about": {
+    "title": "Sobre",
+    "version": "Versão {{version}}",
+    "platform": "Plataforma: {{platform}}",
+    "body": "Criado a partir do Base App. Substitua este texto pela descrição do seu app."
+  },
+  "menu": {
+    "paused": "Pausado",
+    "resume": "Continuar",
+    "options": "Opções",
+    "quit": "Sair",
+    "restart": "Reiniciar"
+  },
+  "gameLoop": {
+    "title": "Loop de jogo",
+    "hint": "Incline o celular para rolar a bolinha. Toque na tela para pausar.",
+    "noTilt": "Não há sensor de inclinação aqui, então a bolinha cai com a gravidade normal. Toque na tela para pausar.",
+    "bounces_one": "{{count}} quique",
+    "bounces_many": "{{count}} de quiques",
+    "bounces_other": "{{count}} quiques"
+  },
+  "phaser": {
+    "title": "Phaser",
+    "hint": "Uma cena Phaser dentro do app. Toque para lançar a bolinha.",
+    "bounces_one": "{{count}} quique",
+    "bounces_many": "{{count}} de quiques",
+    "bounces_other": "{{count}} quiques"
+  },
+  "media": {
+    "title": "Som, vibração e sensores",
+    "sound": "Som",
+    "playBank": "Tocar um som",
+    "pickCustom": "Escolher um som personalizado",
+    "clearCustom": "Usar o som integrado",
+    "customSet": "Som personalizado: {{name}}",
+    "haptics": "Vibração",
+    "light": "Leve",
+    "heavy": "Forte",
+    "success": "Sucesso",
+    "sensors": "Sensores",
+    "tilt": "Inclinação x {{x}} · y {{y}}",
+    "calibrate": "Definir o ângulo atual como nível",
+    "shakes_one": "{{count}} sacudida",
+    "shakes_many": "{{count}} de sacudidas",
+    "shakes_other": "{{count}} sacudidas",
+    "unavailable": "Indisponível neste dispositivo."
+  },
+  "api": {
+    "title": "API e LLM",
+    "prompt": "Pergunte algo",
+    "send": "Enviar",
+    "provider": "Provedor",
+    "fake": "Demo offline",
+    "http": "Servidor HTTP",
+    "notConfigured": "Defina EXPO_PUBLIC_API_URL para usar o provedor HTTP.",
+    "rateLimited": "Muitas solicitações. Tente novamente em {{seconds}} s.",
+    "error": "Algo deu errado: {{message}}"
+  }
+}

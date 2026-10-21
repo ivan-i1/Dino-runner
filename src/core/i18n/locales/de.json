@@ -1,0 +1,85 @@
+{
+  "common": {
+    "back": "Zurück",
+    "close": "Schließen",
+    "cancel": "Abbrechen",
+    "ok": "OK",
+    "retry": "Erneut versuchen",
+    "loading": "Wird geladen…",
+    "reset": "Auf Standard zurücksetzen"
+  },
+  "home": {
+    "title": "Dino-runner",
+    "subtitle": "Ein Ausgangspunkt für neue Apps: Wähle eine Demo, um jedes Modul in Aktion zu sehen.",
+    "demos": "Demos",
+    "settings": "Einstellungen",
+    "about": "Info"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "language": "Sprache",
+    "languageSystem": "Gerätesprache",
+    "theme": "Design",
+    "themeSystem": "Gerät",
+    "themeLight": "Hell",
+    "themeDark": "Dunkel",
+    "sound": "Ton",
+    "vibration": "Vibration",
+    "volume": "Lautstärke"
+  },
+  "about": {
+    "title": "Info",
+    "version": "Version {{version}}",
+    "platform": "Plattform: {{platform}}",
+    "body": "Erstellt mit Base App. Ersetze diesen Text durch die Beschreibung deiner App."
+  },
+  "menu": {
+    "paused": "Pausiert",
+    "resume": "Weiter",
+    "options": "Optionen",
+    "quit": "Beenden",
+    "restart": "Neu starten"
+  },
+  "gameLoop": {
+    "title": "Spielschleife",
+    "hint": "Neige das Handy, um die Kugel rollen zu lassen. Tippe auf den Bildschirm zum Pausieren.",
+    "noTilt": "Hier gibt es keinen Neigungssensor, daher fällt die Kugel mit normaler Schwerkraft. Tippe auf den Bildschirm zum Pausieren.",
+    "bounces_one": "{{count}} Abpraller",
+    "bounces_other": "{{count}} Abpraller"
+  },
+  "phaser": {
+    "title": "Phaser",
+    "hint": "Eine Phaser-Szene in der App. Tippe, um die Kugel zu werfen.",
+    "bounces_one": "{{count}} Abpraller",
+    "bounces_other": "{{count}} Abpraller"
+  },
+  "media": {
+    "title": "Ton, Haptik & Sensoren",
+    "sound": "Ton",
+    "playBank": "Ton abspielen",
+    "pickCustom": "Eigenen Ton wählen",
+    "clearCustom": "Integrierten Ton verwenden",
+    "customSet": "Eigener Ton: {{name}}",
+    "haptics": "Haptik",
+    "light": "Leicht",
+    "heavy": "Stark",
+    "success": "Erfolg",
+    "sensors": "Sensoren",
+    "tilt": "Neigung x {{x}} · y {{y}}",
+    "calibrate": "Aktuellen Winkel als waagerecht festlegen",
+    "shakes_one": "{{count}} Schütteln",
+    "shakes_other": "{{count}}-mal geschüttelt",
+    "unavailable": "Auf diesem Gerät nicht verfügbar."
+  },
+  "api": {
+    "title": "API & LLM",
+    "prompt": "Frag etwas",
+    "send": "Senden",
+    "provider": "Anbieter",
+    "fake": "Offline-Demo",
+    "http": "HTTP-Server",
+    "notConfigured": "Setze EXPO_PUBLIC_API_URL, um den HTTP-Anbieter zu nutzen.",
+    "rateLimited": "Zu viele Anfragen. Versuche es in {{seconds}} s erneut.",
+    "error": "Etwas ist schiefgelaufen: {{message}}"
+  }
+}

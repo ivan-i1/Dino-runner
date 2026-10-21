@@ -1,0 +1,88 @@
+{
+  "common": {
+    "back": "Indietro",
+    "close": "Chiudi",
+    "cancel": "Annulla",
+    "ok": "OK",
+    "retry": "Riprova",
+    "loading": "Caricamento…",
+    "reset": "Ripristina predefiniti"
+  },
+  "home": {
+    "title": "Dino-runner",
+    "subtitle": "Un punto di partenza per nuove app: scegli una demo per vedere ogni modulo in azione.",
+    "demos": "Demo",
+    "settings": "Impostazioni",
+    "about": "Informazioni"
+  },
+  "settings": {
+    "title": "Impostazioni",
+    "language": "Lingua",
+    "languageSystem": "Lingua del dispositivo",
+    "theme": "Tema",
+    "themeSystem": "Dispositivo",
+    "themeLight": "Chiaro",
+    "themeDark": "Scuro",
+    "sound": "Suono",
+    "vibration": "Vibrazione",
+    "volume": "Volume"
+  },
+  "about": {
+    "title": "Informazioni",
+    "version": "Versione {{version}}",
+    "platform": "Piattaforma: {{platform}}",
+    "body": "Creata a partire da Base App. Sostituisci questo testo con la descrizione della tua app."
+  },
+  "menu": {
+    "paused": "In pausa",
+    "resume": "Riprendi",
+    "options": "Opzioni",
+    "quit": "Esci",
+    "restart": "Ricomincia"
+  },
+  "gameLoop": {
+    "title": "Ciclo di gioco",
+    "hint": "Inclina il telefono per far rotolare la pallina. Tocca lo schermo per mettere in pausa.",
+    "noTilt": "Qui non c’è un sensore di inclinazione, quindi la pallina cade con la gravità normale. Tocca lo schermo per mettere in pausa.",
+    "bounces_one": "{{count}} rimbalzo",
+    "bounces_many": "{{count}} di rimbalzi",
+    "bounces_other": "{{count}} rimbalzi"
+  },
+  "phaser": {
+    "title": "Phaser",
+    "hint": "Una scena Phaser dentro l’app. Tocca per lanciare la pallina.",
+    "bounces_one": "{{count}} rimbalzo",
+    "bounces_many": "{{count}} di rimbalzi",
+    "bounces_other": "{{count}} rimbalzi"
+  },
+  "media": {
+    "title": "Suono, vibrazione e sensori",
+    "sound": "Suono",
+    "playBank": "Riproduci un suono",
+    "pickCustom": "Scegli un suono personalizzato",
+    "clearCustom": "Usa il suono integrato",
+    "customSet": "Suono personalizzato: {{name}}",
+    "haptics": "Vibrazione",
+    "light": "Leggera",
+    "heavy": "Forte",
+    "success": "Successo",
+    "sensors": "Sensori",
+    "tilt": "Inclinazione x {{x}} · y {{y}}",
+    "calibrate": "Imposta l’angolo attuale come piano",
+    "shakes_one": "{{count}} scossa",
+    "shakes_many": "{{count}} di scosse",
+    "shakes_other": "{{count}} scosse",
+    "unavailable": "Non disponibile su questo dispositivo."
+  },
+  "api": {
+    "title": "API e LLM",
+    "prompt": "Chiedi qualcosa",
+    "send": "Invia",
+    "provider": "Fornitore",
+    "fake": "Demo offline",
+    "http": "Server HTTP",
+    "notConfigured": "Imposta EXPO_PUBLIC_API_URL per usare il fornitore HTTP.",
+    "rateLimited": "Troppe richieste. Riprova tra {{seconds}} s.",
+    "error": "Si è verificato un errore: {{message}}"
+  }
+}

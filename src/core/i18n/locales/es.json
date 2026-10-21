@@ -1,0 +1,88 @@
+{
+  "common": {
+    "back": "Atrás",
+    "close": "Cerrar",
+    "cancel": "Cancelar",
+    "ok": "Aceptar",
+    "retry": "Reintentar",
+    "loading": "Cargando…",
+    "reset": "Restablecer valores"
+  },
+  "home": {
+    "title": "Dino-runner",
+    "subtitle": "Un punto de partida para apps nuevas: elige una demo para ver cada módulo en acción.",
+    "demos": "Demos",
+    "settings": "Ajustes",
+    "about": "Acerca de"
+  },
+  "settings": {
+    "title": "Ajustes",
+    "language": "Idioma",
+    "languageSystem": "Idioma del dispositivo",
+    "theme": "Tema",
+    "themeSystem": "Dispositivo",
+    "themeLight": "Claro",
+    "themeDark": "Oscuro",
+    "sound": "Sonido",
+    "vibration": "Vibración",
+    "volume": "Volumen"
+  },
+  "about": {
+    "title": "Acerca de",
+    "version": "Versión {{version}}",
+    "platform": "Plataforma: {{platform}}",
+    "body": "Creada a partir de Base App. Reemplaza este texto con la descripción de tu app."
+  },
+  "menu": {
+    "paused": "En pausa",
+    "resume": "Continuar",
+    "options": "Opciones",
+    "quit": "Salir",
+    "restart": "Reiniciar"
+  },
+  "gameLoop": {
+    "title": "Bucle de juego",
+    "hint": "Inclina el teléfono para mover la bolita. Toca la pantalla para pausar.",
+    "noTilt": "Aquí no hay sensor de inclinación, así que la bolita cae con gravedad normal. Toca la pantalla para pausar.",
+    "bounces_one": "{{count}} rebote",
+    "bounces_many": "{{count}} de rebotes",
+    "bounces_other": "{{count}} rebotes"
+  },
+  "phaser": {
+    "title": "Phaser",
+    "hint": "Una escena de Phaser dentro de la app. Toca para lanzar la bolita.",
+    "bounces_one": "{{count}} rebote",
+    "bounces_many": "{{count}} de rebotes",
+    "bounces_other": "{{count}} rebotes"
+  },
+  "media": {
+    "title": "Sonido, vibración y sensores",
+    "sound": "Sonido",
+    "playBank": "Reproducir un sonido",
+    "pickCustom": "Elegir un sonido propio",
+    "clearCustom": "Usar el sonido integrado",
+    "customSet": "Sonido propio: {{name}}",
+    "haptics": "Vibración",
+    "light": "Suave",
+    "heavy": "Fuerte",
+    "success": "Éxito",
+    "sensors": "Sensores",
+    "tilt": "Inclinación x {{x}} · y {{y}}",
+    "calibrate": "Usar el ángulo actual como nivel",
+    "shakes_one": "{{count}} sacudida",
+    "shakes_many": "{{count}} de sacudidas",
+    "shakes_other": "{{count}} sacudidas",
+    "unavailable": "No disponible en este dispositivo."
+  },
+  "api": {
+    "title": "API y LLM",
+    "prompt": "Pregunta algo",
+    "send": "Enviar",
+    "provider": "Proveedor",
+    "fake": "Demo sin conexión",
+    "http": "Servidor HTTP",
+    "notConfigured": "Define EXPO_PUBLIC_API_URL para usar el proveedor HTTP.",
+    "rateLimited": "Demasiadas solicitudes. Inténtalo de nuevo en {{seconds}} s.",
+    "error": "Algo salió mal: {{message}}"
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "common": {
+    "back": "Retour",
+    "close": "Fermer",
+    "cancel": "Annuler",
+    "ok": "OK",
+    "retry": "Réessayer",
+    "loading": "Chargement…",
+    "reset": "Rétablir les valeurs par défaut"
+  },
+  "home": {
+    "title": "Dino-runner",
+    "subtitle": "Un point de départ pour de nouvelles apps : choisissez une démo pour voir chaque module en action.",
+    "demos": "Démos",
+    "settings": "Réglages",
+    "about": "À propos"
+  },
+  "settings": {
+    "title": "Réglages",
+    "language": "Langue",
+    "languageSystem": "Langue de l’appareil",
+    "theme": "Thème",
+    "themeSystem": "Appareil",
+    "themeLight": "Clair",
+    "themeDark": "Sombre",
+    "sound": "Son",
+    "vibration": "Vibration",
+    "volume": "Volume"
+  },
+  "about": {
+    "title": "À propos",
+    "version": "Version {{version}}",
+    "platform": "Plateforme : {{platform}}",
+    "body": "Créée à partir de Base App. Remplacez ce texte par la description de votre app."
+  },
+  "menu": {
+    "paused": "En pause",
+    "resume": "Reprendre",
+    "options": "Options",
+    "quit": "Quitter",
+    "restart": "Recommencer"
+  },
+  "gameLoop": {
+    "title": "Boucle de jeu",
+    "hint": "Inclinez le téléphone pour faire rouler la bille. Touchez l’écran pour mettre en pause.",
+    "noTilt": "Pas de capteur d’inclinaison ici : la bille tombe avec la gravité normale. Touchez l’écran pour mettre en pause.",
+    "bounces_one": "{{count}} rebond",
+    "bounces_many": "{{count}} de rebonds",
+    "bounces_other": "{{count}} rebonds"
+  },
+  "phaser": {
+    "title": "Phaser",
+    "hint": "Une scène Phaser dans l’app. Touchez pour lancer la bille.",
+    "bounces_one": "{{count}} rebond",
+    "bounces_many": "{{count}} de rebonds",
+    "bounces_other": "{{count}} rebonds"
+  },
+  "media": {
+    "title": "Son, vibrations et capteurs",
+    "sound": "Son",
+    "playBank": "Jouer un son",
+    "pickCustom": "Choisir un son personnalisé",
+    "clearCustom": "Utiliser le son intégré",
+    "customSet": "Son personnalisé : {{name}}",
+    "haptics": "Vibrations",
+    "light": "Légère",
+    "heavy": "Forte",
+    "success": "Succès",
+    "sensors": "Capteurs",
+    "tilt": "Inclinaison x {{x}} · y {{y}}",
+    "calibrate": "Définir l’angle actuel comme niveau",
+    "shakes_one": "{{count}} secousse",
+    "shakes_many": "{{count}} de secousses",
+    "shakes_other": "{{count}} secousses",
+    "unavailable": "Non disponible sur cet appareil."
+  },
+  "api": {
+    "title": "API et LLM",
+    "prompt": "Posez une question",
+    "send": "Envoyer",
+    "provider": "Fournisseur",
+    "fake": "Démo hors ligne",
+    "http": "Serveur HTTP",
+    "notConfigured": "Définissez EXPO_PUBLIC_API_URL pour utiliser le fournisseur HTTP.",
+    "rateLimited": "Trop de requêtes. Réessayez dans {{seconds}} s.",
+    "error": "Une erreur s’est produite : {{message}}"
+  }
+}

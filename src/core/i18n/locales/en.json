@@ -1,0 +1,85 @@
+{
+  "common": {
+    "back": "Back",
+    "close": "Close",
+    "cancel": "Cancel",
+    "ok": "OK",
+    "retry": "Retry",
+    "loading": "Loading…",
+    "reset": "Reset to defaults"
+  },
+  "home": {
+    "title": "Dino-runner",
+    "subtitle": "A starting point for new apps: pick a demo to see each module working.",
+    "demos": "Demos",
+    "settings": "Settings",
+    "about": "About"
+  },
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "languageSystem": "Device language",
+    "theme": "Theme",
+    "themeSystem": "Device",
+    "themeLight": "Light",
+    "themeDark": "Dark",
+    "sound": "Sound",
+    "vibration": "Vibration",
+    "volume": "Volume"
+  },
+  "about": {
+    "title": "About",
+    "version": "Version {{version}}",
+    "platform": "Platform: {{platform}}",
+    "body": "Built from Base App. Replace this text with your app's description."
+  },
+  "menu": {
+    "paused": "Paused",
+    "resume": "Resume",
+    "options": "Options",
+    "quit": "Quit",
+    "restart": "Restart"
+  },
+  "gameLoop": {
+    "title": "Game loop",
+    "hint": "Tilt the phone to roll the ball. Tap the screen to pause.",
+    "noTilt": "No tilt sensor here, so the ball falls with normal gravity. Tap the screen to pause.",
+    "bounces_one": "{{count}} bounce",
+    "bounces_other": "{{count}} bounces"
+  },
+  "phaser": {
+    "title": "Phaser",
+    "hint": "A Phaser scene running inside the app. Tap to launch the ball.",
+    "bounces_one": "{{count}} bounce",
+    "bounces_other": "{{count}} bounces"
+  },
+  "media": {
+    "title": "Sound, haptics & sensors",
+    "sound": "Sound",
+    "playBank": "Play a sound",
+    "pickCustom": "Choose a custom sound",
+    "clearCustom": "Use the built-in sound",
+    "customSet": "Custom sound: {{name}}",
+    "haptics": "Haptics",
+    "light": "Light",
+    "heavy": "Heavy",
+    "success": "Success",
+    "sensors": "Sensors",
+    "tilt": "Tilt x {{x}} · y {{y}}",
+    "calibrate": "Set current angle as level",
+    "shakes_one": "{{count}} shake",
+    "shakes_other": "{{count}} shakes",
+    "unavailable": "Not available on this device."
+  },
+  "api": {
+    "title": "API & LLM",
+    "prompt": "Ask something",
+    "send": "Send",
+    "provider": "Provider",
+    "fake": "Offline demo",
+    "http": "HTTP server",
+    "notConfigured": "Set EXPO_PUBLIC_API_URL to use the HTTP provider.",
+    "rateLimited": "Too many requests. Try again in {{seconds}} s.",
+    "error": "Something went wrong: {{message}}"
+  }
+}
