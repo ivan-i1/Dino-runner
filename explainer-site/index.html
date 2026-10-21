@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dino-runner — design orientation</title>
+<style>
+  :root {
+    --paper: #fbfaf6;
+    --ink: #1b1b1b;
+    --muted: #4a4a4a;
+    --rule: #d9d5ca;
+    --panel: #f2efe6;
+    --code: #f0ede4;
+    --accent: #1f4e79;
+    --current: #1d6b36;
+    --decided: #1f4e79;
+    --proposed: #7a4b00;
+    --deferred: #5b5b5b;
+    --verify: #9b1c1c;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font: 18px/1.6 ui-sans-serif, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 900px; margin: 0 auto; padding: 24px 16px 96px; }
+  h1 { font-size: 1.9rem; line-height: 1.25; margin: 0.4em 0 0.2em; }
+  h2 { font-size: 1.45rem; margin: 2.2em 0 0.5em; padding-top: 0.6em; border-top: 2px solid var(--rule); }
+  h3 { font-size: 1.15rem; margin: 1.6em 0 0.4em; }
+  h2, h3 { scroll-margin-top: 16px; }
+  p, li { max-width: 72ch; }
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.86em; }
+  code { background: var(--code); padding: 0 0.25em; border-radius: 3px; overflow-wrap: anywhere; }
+  pre { background: var(--code); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 14px; white-space: pre-wrap; word-break: break-word; overflow-wrap: anywhere; }
+  pre code { background: none; padding: 0; }
+  .banner { background: var(--panel); border: 1px solid var(--rule); border-left: 6px solid var(--verify); border-radius: 6px; padding: 14px 18px; margin: 16px 0; }
+  .banner p { margin: 0.35em 0; }
+  .chip { display: inline-block; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; padding: 1px 8px; border-radius: 999px; border: 1.5px solid currentColor; vertical-align: middle; white-space: nowrap; }
+  .chip.current { color: var(--current); }
+  .chip.decided { color: var(--decided); }
+  .chip.proposed { color: var(--proposed); }
+  .chip.deferred { color: var(--deferred); }
+  .chip.verify { color: var(--verify); }
+  .label { font-size: 0.9rem; font-weight: 700; color: var(--muted); margin: 1em 0 -0.4em; }
+  nav#index ol { list-style: none; padding: 0; margin: 0; columns: 2; column-gap: 28px; }
+  nav#index li { break-inside: avoid; padding: 4px 0; }
+  nav#index { background: var(--panel); border: 1px solid var(--rule); border-radius: 6px; padding: 12px 18px; }
+  .table-wrap { overflow-x: auto; margin: 0.8em 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+  th, td { border: 1px solid var(--rule); padding: 6px 9px; text-align: left; vertical-align: top; }
+  th { background: var(--panel); }
+  .boundary { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .boundary div { border: 1px solid var(--rule); border-radius: 6px; padding: 10px 14px; background: #fff; }
+  .boundary b { display: block; }
+  .flow { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.95rem; background: #fff; border: 1px solid var(--rule); border-radius: 6px; padding: 10px 14px; }
+  .note { color: var(--muted); font-size: 0.92rem; }
+  .backtop { position: fixed; right: 18px; bottom: 18px; background: var(--ink); color: var(--paper); text-decoration: none; padding: 8px 14px; border-radius: 999px; font-size: 0.85rem; }
+  @media (max-width: 640px) {
+    body { font-size: 17px; }
+    nav#index ol { columns: 1; }
+    .boundary { grid-template-columns: 1fr; }
+    .backtop { display: none; }
+  }
+</style>
+</head>
+<body>
+<main>
+
+<p class="note">Orientation page · built 2026-10-21 against commit <code>5262eea</code></p>
+<h1>Dino-runner: what is decided, what is proposed, what is built</h1>
+
+<div class="banner" role="note">
+  <p><b>This page is not the spec.</b> It summarises the design dumps <a href="../ADV-REV-Dino-runner-V0.md">V0</a>, <a href="../ADV-REV-Dino-runner-V1.md">V1</a> (with the author's answers to Q1–Q12) and <a href="../ADV-REV-Dino-runner-V2.md">V2</a>. If this page and those files disagree, the files win.</p>
+  <p><b>No gameplay code exists yet.</b> The repository contains the Base App template, renamed to Dino-runner. Every game rule below is a design statement, not a description of running software. Nothing has been deployed to any store.</p>
+  <p><b>The design is pre-plan.</b> Questions #13–#26 are unanswered. They are listed in <a href="#open">Open questions</a>.</p>
+</div>
+
+<h3 id="status-key">How to read the status chips</h3>
+<div class="table-wrap"><table>
+  <tr><th>Chip</th><th>Means</th><th>Authority</th></tr>
+  <tr><td><span class="chip current">Current</span></td><td>Exists in the repository at <code>5262eea</code>.</td><td>The code itself</td></tr>
+  <tr><td><span class="chip decided">Decided</span></td><td>The author answered it in V1. Not built.</td><td>V1 §8, answers to Q1–Q12</td></tr>
+  <tr><td><span class="chip proposed">Proposed</span></td><td>Recommended by the V2 review and waiting on an answer.</td><td>V2 §2, §6, §8</td></tr>
+  <tr><td><span class="chip deferred">Deferred</span></td><td>The author pushed it to a later iteration.</td><td>V1 Q11</td></tr>
+  <tr><td><span class="chip verify">Verify</span></td><td>Contradicted, unmeasured or unresolved. Do not build on it yet.</td><td>V2 verdicts and dark areas</td></tr>
+</table></div>
+
+<nav id="index" aria-label="Index">
+  <b>Index</b>
+  <ol>
+    <li><a href="#boundary">1. What it is and is not</a> <span class="chip decided">Decided</span></li>
+    <li><a href="#rules">2. The three dinosaurs</a> <span class="chip decided">Decided</span></li>
+    <li><a href="#walkthrough">3. One obstacle stream, three dinosaurs</a> <span class="chip proposed">Proposed</span></li>
+    <li><a href="#bands">4. Bands: rule, not geometry</a> <span class="chip proposed">Proposed</span></li>
+    <li><a href="#economy">5. Triceratops meter economy</a> <span class="chip proposed">Proposed</span></li>
+    <li><a href="#stack">6. Stack and ownership</a> <span class="chip verify">Verify</span></li>
+    <li><a href="#code">7. Which code blocks are real</a> <span class="chip current">Current</span></li>
+    <li><a href="#data">8. Public and private data</a> <span class="chip current">Current</span> <span class="chip proposed">Proposed</span></li>
+    <li><a href="#reference">9. Reference numbers from the original</a> <span class="chip current">Current</span></li>
+    <li><a href="#shipping">10. Shipping prerequisites</a> <span class="chip verify">Verify</span></li>
+    <li><a href="#deferred">11. Deferred</a> <span class="chip deferred">Deferred</span></li>
+    <li><a href="#open">12. Open questions #13–#26</a> <span class="chip verify">Verify</span></li>
+    <li><a href="#sources">13. Where the authority lives</a></li>
+  </ol>
+</nav>
+
+<!-- 1 -->
+<h2 id="boundary">1. What it is and is not <span class="chip decided">Decided</span></h2>
+
+<p class="flow">One input (hold/release) → shared core loop + one obstacle stream → per-dinosaur collision rules → score.<br>
+Dino-runner does not reuse the Chrome game's art, name or night-mode features in this iteration.</p>
+
+<div class="boundary">
+  <div><b>Does</b>An endless runner on the Chrome offline-dinosaur loop (auto-run, speed ramp, gaps, collision, score). The player picks one of three dinosaurs, each with its own rules. All three are available from the start (Q10).</div>
+  <div><b>Does not</b>Copy the original sprite, or use "Chrome" or "Google" in the title, icon or screenshots (Q12). Night mode, the score flash and the clear-time start are not in this iteration (Q11). It is not "a reskin with a character select" (V1 S1).</div>
+  <div><b>Ships to</b>Google Play, web and iOS (Q9). Under what store title is open (Q24).</div>
+  <div><b>Not settled <span class="chip verify">Verify</span></b>Collision mechanism, stream mix, meter numbers, stack, score storage, art style. See <a href="#open">Open questions</a>.</div>
+</div>
+
+<!-- 2 -->
+<h2 id="rules">2. The three dinosaurs <span class="chip decided">Decided</span></h2>
+
+<p>All three share one input and one obstacle stream. Each acts on one obstacle class and ignores another. The world has two bands: a <b>lower band</b> (cacti, rocks, the grounded T-Rex, the triceratops, a diving pterodactyl) and an <b>upper band</b> (the cruising pterodactyl, a jumping T-Rex, flyers). Source: V1 answers Q1, Q3, Q4, Q5; table from V2 §3.</p>
+
+<div class="table-wrap"><table>
+  <tr><th>Dinosaur</th><th>Input</th><th>Must act on</th><th>Ignores</th><th>Dies when</th></tr>
+  <tr><td><b>T-Rex</b></td><td>Hold to jump; variable height. No duck (Q2). Fast-drop dropped <span class="chip verify">Verify</span> (Q22)</td><td>Cacti, rocks (jump them)</td><td>Flyers, while on the ground</td><td>It touches a cactus or rock, or touches a flyer while airborne</td></tr>
+  <tr><td><b>Pterodactyl</b></td><td>Cruises at the top; hold to dive (the T-Rex's jump, inverted)</td><td>Flyers (dive under them)</td><td>Cacti, rocks, unless diving</td><td>It touches a flyer, or a ground obstacle while diving</td></tr>
+  <tr><td><b>Triceratops</b></td><td>Cannot jump. Hold to charge, which drains the cactus meter</td><td>Rocks (charge through them)</td><td>Flyers (upper band, Q5)</td><td>It meets a rock without charging, including with an empty meter (Q8)</td></tr>
+</table></div>
+
+<p>Triceratops specifics (V0, Q6, Q8): it eats cacti to refill the meter. While charging it cannot eat cacti, but cacti do not hurt it. The meter <b>starts full</b>. It is shown in the upper band, and only for the triceratops. Cacti can never kill it.</p>
+
+<p class="note">The reference implementation gives the pterodactyl a head start. The Chromium T-Rex has a per-character <code>invertJump</code> flag (<code>trex.ts:27,76</code>, honoured at <code>:474,500,509-523</code>), left over from removed alt-game characters. A downward jump from a top baseline is already written (V2 verdict on Q4). The repo contains no Chromium code yet.</p>
+
+<!-- 3 -->
+<h2 id="walkthrough">3. One obstacle stream, three dinosaurs <span class="chip proposed">Proposed</span></h2>
+
+<p>The same three obstacles, <b>cactus → rock → flyer</b>, arrive one after another. They are traced once per dinosaur. Rows read <b>Number · Owner · Action · Data</b>. "Owner" names a design component; none of them exists in code yet (see <a href="#stack">§6</a>). Each row carries the status of the rule it relies on.</p>
+<p>Rows are written in the present tense for readability. They describe <b>intended</b> behaviour, not running code. File references such as <code>trex.ts</code> and <code>obstacle.ts</code> point into the Chromium source (<a href="#reference">§9</a>), not into this repository.</p>
+
+<h3 id="walk-trex">Scenario A — T-Rex, the normal path</h3>
+<div class="table-wrap"><table>
+  <tr><th>#</th><th>Owner</th><th>Action</th><th>Data</th></tr>
+  <tr><td>A1</td><td>Obstacle stream</td><td>Spawns a cactus once the previous gap has scrolled past. One stream for all dinosaurs <span class="chip proposed">Proposed</span> (V2 §3)</td><td><code>cactus</code>, lower band; gap = <code>round(width·speed + minGap·0.6)</code>, up to ×1.5 (<code>obstacle.ts:204-209</code>)</td></tr>
+  <tr><td>A2</td><td>Input</td><td>The player holds. The jump starts; a release is ignored until the dino has risen 30 px <span class="chip verify">Verify</span> (Q22)</td><td>A quick tap gives a <b>full</b> jump: apex 91 px, 35 frames at speed 6 (V2 Q2 table)</td></tr>
+  <tr><td>A3</td><td>Band rule</td><td>An airborne T-Rex is in the upper band <span class="chip proposed">Proposed</span> (Q13)</td><td>T-Rex: upper. Cactus: lower → no collision</td></tr>
+  <tr><td>A4</td><td>Obstacle stream</td><td>Spawns a rock; the T-Rex treats it like a cactus <span class="chip decided">Decided</span> (Q1)</td><td><code>rock</code>, lower band → jump it</td></tr>
+  <tr><td>A5</td><td>Obstacle stream</td><td>Spawns a flyer. If the T-Rex is grounded it passes overhead <span class="chip decided">Decided</span> (Q3)</td><td><code>flyer</code>, upper band. Grounded T-Rex: lower → no collision</td></tr>
+  <tr><td>A6</td><td>Band rule</td><td>If the T-Rex is still airborne when the flyer overlaps in x, they collide → game over</td><td>A long hold clears wide groups but keeps the T-Rex in the upper band longer (Q14)</td></tr>
+  <tr><td>A7</td><td>Score</td><td>Distance becomes score; on game over the best is saved per dino and on a mixed board <span class="chip decided">Decided</span> (Q10). Storage <span class="chip verify">Verify</span> (Q21)</td><td>Chrome: <code>round(distance·0.025)</code> (<code>distance_meter.ts</code>). Proposed storage: local only (D8)</td></tr>
+</table></div>
+
+<h3 id="walk-trike">Scenario B — Triceratops, the resource path</h3>
+<div class="table-wrap"><table>
+  <tr><th>#</th><th>Owner</th><th>Action</th><th>Data</th></tr>
+  <tr><td>B1</td><td>Meter</td><td>The run starts with the meter full <span class="chip decided">Decided</span> (Q6). Capacity is unset <span class="chip verify">Verify</span> (Q16)</td><td>Proposed: capacity ≥ 4 rocks' cost (V2 S2)</td></tr>
+  <tr><td>B2</td><td>Triceratops rules</td><td>The cactus reaches the triceratops while it is not charging → eaten, meter refills</td><td>Intent: one cactus funds 2–3 rocks (Q7)</td></tr>
+  <tr><td>B3</td><td>Input</td><td>The player holds before the rock → charge</td><td>What "charges instead of moving forward" means for world speed is open (Q18)</td></tr>
+  <tr><td>B4</td><td>Meter</td><td>The rock breaks; the meter pays a fixed cost per rock, plus a small drain while held <span class="chip proposed">Proposed</span> (Q17)</td><td>A 17 px rock passes in about 10 frames at speed 6 and 5 at speed 13 (V2 S2, 44 px body)</td></tr>
+  <tr><td>B5</td><td>Band rule</td><td>The flyer is in the upper band; the triceratops never is → no collision <span class="chip decided">Decided</span> (Q5)</td><td>The flyer is drawn behind the meter HUD; hiding flyers in this run is open (Q25)</td></tr>
+  <tr><td>B6</td><td>Triceratops rules</td><td>Alternative ending: the player holds too long, the meter empties, the next rock arrives → game over <span class="chip decided">Decided</span> (Q8)</td><td>A legitimate death: "losing comes from skipping cacti or charging too long" (Q7)</td></tr>
+</table></div>
+
+<h3 id="walk-ptero">Scenario C — Pterodactyl, the boundary case</h3>
+<div class="table-wrap"><table>
+  <tr><th>#</th><th>Owner</th><th>Action</th><th>Data</th></tr>
+  <tr><td>C1</td><td>Pterodactyl rules</td><td>It cruises in the upper band; the cactus and rock pass beneath. Doing nothing is correct <span class="chip decided">Decided</span> (Q3)</td><td>Pterodactyl: upper. Cactus, rock: lower → no collision</td></tr>
+  <tr><td>C2</td><td>Obstacle stream</td><td><b>Boundary:</b> with Chrome's tuning copied as is, no flyer has spawned yet <span class="chip verify">Verify</span> (Q15)</td><td>Chrome spawns flyers at speed ≥ 8.5: about 41.7 s on a ≥500 px canvas, 59–78 s at phone widths (V2 Q3 verdict)</td></tr>
+  <tr><td>C3</td><td>Input</td><td>The flyer arrives; the player holds → dive into the lower band</td><td>Variable depth, mirroring the T-Rex jump (Q4)</td></tr>
+  <tr><td>C4</td><td>Band rule</td><td>Diving pterodactyl: lower; flyer: upper → no collision. If a cactus overlaps in x during the dive → game over</td><td>Same airtime tension as A6 (Q14)</td></tr>
+</table></div>
+
+<p class="note">One stream for every dinosaur makes difficulty depend on the mix. At 1 cactus : 2 rocks plus a few flyers, the T-Rex acts on almost everything and the pterodactyl on almost nothing. The flyer share is open (Q15), and so is whether the mixed board should be fair across dinosaurs (Q20).</p>
+
+<!-- 4 -->
+<h2 id="bands">4. Bands: rule, not geometry <span class="chip proposed">Proposed</span></h2>
+
+<p>The author's two-band model (Q4) does not survive the original's real hitboxes. A <b>held</b> jump's apex box sits at y 3–50, <b>above</b> the high flyer's box at y 59–78. A <b>short hop</b> sits inside that row for 22–24 of its 26–28 airborne frames. "Airborne = upper band" is therefore true for some jumps and false for others, and the result shifts with screen aspect ratio (V2 S1, <code>trex.ts:86-91,469,516-520</code>).</p>
+
+<p><b>Proposed (Q13):</b> decide collisions by band membership. Airborne T-Rex or diving pterodactyl = the other band; collide with anything in that band that overlaps in x. Arcs are drawn for looks only. Variable height then controls <b>airtime</b>, not clearance (Q14).</p>
+
+<!-- 5 -->
+<h2 id="economy">5. Triceratops meter economy <span class="chip proposed">Proposed</span></h2>
+
+<p>The stated loss conditions are skipping cacti and over-charging. They only hold if no sequence is unsurvivable with perfect play. Two things in the current wording break that (V2 S2):</p>
+
+<div class="table-wrap"><table>
+  <tr><th>Generator at 1 cactus : 2 rocks</th><th>Longest rock run</th><th>Rock share</th></tr>
+  <tr><td>Independent random draws (as worded, Q7)</td><td>Unbounded: average 11.3 per 200-obstacle game, 99th percentile 21, worst seen 43</td><td>0.667</td></tr>
+  <tr><td>Chrome's repeat cap of 2 (<code>horizon.ts:299-305</code>)</td><td>2</td><td>0.556 (forces 1:2 toward 4:5)</td></tr>
+  <tr><td><b>Bag shuffle [C,R,R]</b> <span class="chip proposed">Proposed</span></td><td><b>4</b> (bag C,R,R then R,R,C)</td><td>0.667</td></tr>
+</table></div>
+<p class="note">Figures come from a 200,000-run Monte Carlo in V2 (<code>mc.js</code>, job scratch, not in the repo).</p>
+
+<p><b>Cost basis.</b> Time-based drain makes a cactus worth 1.32–1.37× more rocks at speed 13 than at 6. Pixel-based drain goes the other way (0.61–0.63×). A <b>fixed cost per rock</b> keeps "one cactus = 2–3 rocks" true at every speed. A small drain while the button is held still punishes over-charging (Q17).</p>
+
+<!-- 6 -->
+<h2 id="stack">6. Stack and ownership <span class="chip verify">Verify</span></h2>
+
+<p><b>The stack question (Q19) is formally open, and the repository already leans one way.</b> V2 recommended TypeScript canvas wrapped in Capacitor (D7). The project was then bootstrapped from Base App, which is <b>Expo SDK 54</b> and ships a <b>Phaser</b> engine: Phaser runs directly on web and in an offline WebView on Android and iOS. That gives a TypeScript-canvas game inside an Expo shell, a third route V2 did not weigh. <b>Until Q19 is answered, no engine is chosen:</b> do not write game code against Phaser, the game-loop engine, or Capacitor.</p>
+
+<h3 id="stack-current">What exists today <span class="chip current">Current</span></h3>
+<div class="table-wrap"><table>
+  <tr><th>Module</th><th>Where</th><th>Relevance to the game</th></tr>
+  <tr><td>Navigation (Home, Settings, About, demos)</td><td><code>src/app/</code></td><td>Shell for a dinosaur-select screen</td></tr>
+  <tr><td>Translations (6 languages, parity test)</td><td><code>src/core/i18n/</code></td><td>Every visible string must go through <code>t()</code></td></tr>
+  <tr><td>Persisted settings (zustand)</td><td><code>src/core/settings/</code></td><td>Sound, volume, vibration, theme</td></tr>
+  <tr><td>Menu manager (pause, options, Android back)</td><td><code>src/menu/</code></td><td>Pause and game-over menus</td></tr>
+  <tr><td>Game loop (react-native-game-engine + <code>frameScale</code>)</td><td><code>src/engines/game-loop/</code></td><td>V2 S3 advised against this library (no release since 1.2.0). <code>frameScale</code> addresses the 120 Hz trap (V2 §3). Whether to keep it is part of Q19</td></tr>
+  <tr><td>Phaser engine (web native, WebView on mobile)</td><td><code>src/engines/phaser/</code></td><td>Candidate game host. Its only scene today is the demo <code>BounceScene</code></td></tr>
+  <tr><td>Audio, haptics</td><td><code>src/engines/audio/</code>, <code>src/engines/haptics/</code></td><td>Jump, eat, crash feedback</td></tr>
+  <tr><td>Sensors, API/LLM client</td><td><code>src/engines/sensors/</code>, <code>src/engines/api/</code></td><td>No stated use in the design</td></tr>
+  <tr><td>Android release signing</td><td><code>plugins/withReleaseSigning.js</code></td><td>Keeps keystore secrets out of the public repo</td></tr>
+</table></div>
+<p class="note">Source: <a href="../README.md">README.md</a>. Gates at <code>5262eea</code>: typecheck, lint and 50/50 tests pass; the web build renders. Android and iOS were not run.</p>
+
+<h3 id="stack-proposed">What the game needs <span class="chip proposed">Proposed</span></h3>
+<p>Design components implied by V1 S1 and V2 §2–§3. None exists. Each has one job and one thing it must not become.</p>
+<div class="table-wrap"><table>
+  <tr><th>Component</th><th>One job</th><th>Must not become</th></tr>
+  <tr><td>Shared core loop</td><td>Scroll, speed ramp, gaps, score, all scaled by frame time</td><td>A per-dinosaur fork. The loop is shared (V1 S1)</td></tr>
+  <tr><td>Obstacle stream</td><td>One sequence for every dinosaur, from a bag shuffle</td><td>Two independent per-band streams. One stream is what guarantees no unavoidable pair (V2 §3)</td></tr>
+  <tr><td>Band rule</td><td>Decide collision from band membership plus x-overlap</td><td>Pixel hitboxes tuned per screen (V2 S1)</td></tr>
+  <tr><td>Per-dino rule set</td><td>Map input to state and state to band; triceratops eat/charge</td><td>A spawner. Rules react to the stream; they do not shape it</td></tr>
+  <tr><td>Meter</td><td>Triceratops charge budget, drawn in the upper band</td><td>A HUD for the T-Rex or pterodactyl. They have no meter and need to see ahead (Q8)</td></tr>
+  <tr><td>Score store</td><td>Mixed and per-dino best scores</td><td>An online leaderboard in this iteration (Q11, Q21)</td></tr>
+</table></div>
+
+<!-- 7 -->
+<h2 id="code">7. Which code blocks are real <span class="chip current">Current</span></h2>
+
+<p>The design has <b>no wire contract and no JSON schema</b>. This page therefore shows no JSON, and every game rule above is prose or a table, not an API.</p>
+<p>The one real contract in the repo is the host↔game message boundary of the Phaser engine. The block below is <b>copied verbatim</b> from <a href="../src/engines/phaser/bridge.ts"><code>src/engines/phaser/bridge.ts</code></a> at <code>5262eea</code>. It is <b>Base App's demo contract</b>: the <code>bounce</code> event belongs to the demo scene, and the game's own events have not been designed.</p>
+
+<p class="label">Real file, verbatim excerpt — demo contract, not the game's</p>
+<pre><code>/** Game → host. */
+export type GameEvent = { type: 'ready' } | { type: 'bounce'; count: number } | { type: 'log'; message: string };
+
+/** Host → game. */
+export type HostCommand =
+  | { type: 'pause' }
+  | { type: 'resume' }
+  | { type: 'restart' }
+  | { type: 'settings'; sound: boolean; volume: number };</code></pre>
+
+<!-- 8 -->
+<h2 id="data">8. Public and private data <span class="chip current">Current</span> <span class="chip proposed">Proposed</span></h2>
+<p class="note">Repository facts are Current. The player-data line is design only.</p>
+<ul>
+  <li><b>The repository is public</b> (<code>github.com/ivan-i1/Dino-runner</code>). Anything committed is published.</li>
+  <li><b>Never committed:</b> <code>credentials/</code> (Android upload keystore and its passwords), keystores and <code>.env.local</code>. All are gitignored (<a href="../CLAUDE.md">CLAUDE.md</a>). Only templates are tracked: <code>credentials.example/</code> and <code>.env.example</code>.</li>
+  <li><b>Public by construction:</b> <code>EXPO_PUBLIC_API_URL</code> ships inside the bundle (<a href="../README.md">README</a> → Configuration). The game design states no backend.</li>
+  <li><b>Player data:</b> best scores. Local only is <span class="chip proposed">Proposed</span> (Q21). No online board works on web without a third party (V2 Q10 verdict).</li>
+  <li><b>Licensing:</b> the repo is MIT. Any Chromium code that gets ported is BSD-3-Clause and must keep its notice (V1 A5).</li>
+</ul>
+
+<!-- 9 -->
+<h2 id="reference">9. Reference numbers from the original <span class="chip current">Current</span></h2>
+<p>These are facts about the Chromium dino game, the reference implementation, not about Dino-runner. Paths are relative to <code>components/neterror/resources/dino_game/</code> in Chromium (V1, V2).</p>
+<div class="table-wrap"><table>
+  <tr><th>Parameter</th><th>Value</th><th>Source</th></tr>
+  <tr><td>Speed</td><td>Start 6, +0.001 per frame, max 13; mobile ×1.2</td><td><code>offline.ts:37-81</code></td></tr>
+  <tr><td>Speed ramp unit</td><td>Per animation frame, so 2× faster in wall-clock time at 120 Hz</td><td><code>offline.ts:1294-1298</code></td></tr>
+  <tr><td>Gap</td><td><code>round(width·speed + typeMinGap·0.6)</code>, up to ×1.5</td><td><code>obstacle.ts:204-209</code></td></tr>
+  <tr><td>Flyer minimum speed</td><td>8.5</td><td><code>offline_sprite_definitions.ts:178</code></td></tr>
+  <tr><td>Repeat cap</td><td>At most 2 of a type in a row</td><td><code>horizon.ts:295-304</code></td></tr>
+  <tr><td>Early release</td><td>Ignored until 30 px of rise (3–4 frames, 50–67 ms)</td><td><code>trex.ts:483-487</code></td></tr>
+  <tr><td>Jump at speed 6</td><td>Shortest hop: apex 62 px, 28 frames. Full: 91 px, 35 frames</td><td>V2 <code>sim.js</code></td></tr>
+  <tr><td>First obstacle</td><td>About 4 s, counted after the first jump and the 0.4 s intro</td><td><code>offline.ts:721,830</code></td></tr>
+</table></div>
+
+<!-- 10 -->
+<h2 id="shipping">10. Shipping prerequisites <span class="chip verify">Verify</span></h2>
+<ul>
+  <li><b>Apple Developer Program</b> ($99/yr). A team ID in another project does not prove membership (V2 U5, Q23).</li>
+  <li><b>Play closed test:</b> 12 testers for 14 days if the Play account is personal and was created after 2023-11-13. This is the longest wall-clock item (V2 U5, Q23).</li>
+  <li><b>Name:</b> two live Play listings are titled exactly "Dino Runner". Apple allows a name for one app per localization, and Guideline 4.1 bars "minor changes" to another app's name (V2 Q12 verdict, Q24).</li>
+  <li><b>Apple 4.3(b) spam risk:</b> dino runners are a crowded genre. The three-dinosaur mechanics are the differentiation, so a T-Rex-only first release is the riskiest submission (V2 U6, inferred).</li>
+  <li><b>Device verification:</b> rendering, input feel and audio can only be checked on a device or simulator. The automated gates reach pure logic only (<a href="../CLAUDE.md">CLAUDE.md</a>).</li>
+</ul>
+
+<!-- 11 -->
+<h2 id="deferred">11. Deferred <span class="chip deferred">Deferred</span></h2>
+<p>Out of this iteration (Q11): night-mode inversion every 700 points, the score flash and sound every 100 points, and the original's clear-time start. V2 adds one correction: some grace period before the first obstacle is still needed in any minimum build.</p>
+
+<!-- 12 -->
+<h2 id="open">12. Open questions #13–#26 <span class="chip verify">Verify</span></h2>
+<p>Verbatim numbering from <a href="../ADV-REV-Dino-runner-V2.md">V2 §8</a>, condensed. The authority is the file. Answers go into the next dump.</p>
+<div class="table-wrap"><table>
+  <tr><th>#</th><th>Question</th><th>V2 recommends</th><th>Blocks</th></tr>
+  <tr><td>13</td><td>Collision by band membership instead of pixel hitboxes?</td><td>Yes (D5)</td><td><a href="#bands">§4</a>, every collision</td></tr>
+  <tr><td>14</td><td>Variable height = airtime, for the jump and the dive?</td><td>Yes</td><td>Input tuning</td></tr>
+  <tr><td>15</td><td>Flyer share of the stream; flyers from the start?</td><td>e.g. bag [C,R,R,F]; delay ≈ 0</td><td>Pterodactyl playability</td></tr>
+  <tr><td>16</td><td>Bag shuffle; full meter ≥ 4 rocks?</td><td>Yes (D6)</td><td>Triceratops fairness</td></tr>
+  <tr><td>17</td><td>Per-rock cost plus a hold drain, or pure time drain?</td><td>Per-rock + small drain (D6)</td><td>Meter tuning</td></tr>
+  <tr><td>18</td><td>Does the world slow or stop while charging?</td><td>—</td><td>Triceratops feel</td></tr>
+  <tr><td>19</td><td>Stack: TS canvas + Capacitor, or Expo + Skia?</td><td>Capacitor (D7). The repo was since bootstrapped on Expo + Phaser, a third option; still unanswered (<a href="#stack">§6</a>)</td><td>All engine code</td></tr>
+  <tr><td>20</td><td>Mixed-board fairness across dinosaurs?</td><td>—</td><td>Scoring</td></tr>
+  <tr><td>21</td><td>Local-only scores this iteration?</td><td>Local (D8)</td><td>Score store</td></tr>
+  <tr><td>22</td><td>Latch a quick tap into the shortest hop? Fast-drop dropped?</td><td>Latch (opinion)</td><td>T-Rex feel on touch</td></tr>
+  <tr><td>23</td><td>Apple membership active? Play account personal and post-2023-11-13?</td><td>—</td><td>Release timeline</td></tr>
+  <tr><td>24</td><td>Is "Dino-runner" the store title?</td><td>Distinct title or subtitle (D9)</td><td>Store listings</td></tr>
+  <tr><td>25</td><td>Hide flyers in the triceratops run?</td><td>—</td><td>Meter HUD</td></tr>
+  <tr><td>26</td><td>What does "won't be led screen art" (the author's words, quoted as written) mean?</td><td>—</td><td>Art, hitbox widths</td></tr>
+</table></div>
+<p class="note">Also unresolved, with no research answer (V2 §5): whether a phone tap falls under 50–67 ms, the triceratops hitbox width (tables assume 44 px), and whether the triceratops is fun. Each needs a greybox build or a playtest.</p>
+
+<!-- 13 -->
+<h2 id="sources">13. Where the authority lives</h2>
+<ul>
+  <li><a href="../ADV-REV-Dino-runner-V0.md">ADV-REV-Dino-runner-V0.md</a>: the original five-line idea.</li>
+  <li><a href="../ADV-REV-Dino-runner-V1.md">ADV-REV-Dino-runner-V1.md</a>: first review, with the author's answers to Q1–Q12 in §8.</li>
+  <li><a href="../ADV-REV-Dino-runner-V2.md">ADV-REV-Dino-runner-V2.md</a>: second review, simulations, recommendations D5–D9, questions #13–#26.</li>
+  <li><a href="../README.md">README.md</a>: modules, commands, signing and configuration.</li>
+  <li><a href="../CLAUDE.md">CLAUDE.md</a>: architecture rules that are easy to break.</li>
+  <li><a href="../src/engines/phaser/bridge.ts">src/engines/phaser/bridge.ts</a>: the host↔game contract.</li>
+  <li>Chromium reference: <code>chromium.googlesource.com/chromium/src/+/refs/heads/main/components/neterror/resources/dino_game/</code> (BSD-3-Clause; not vendored here).</li>
+</ul>
+<p class="note">This page is not evidence that anything is built or deployed.</p>
+
+</main>
+<a class="backtop" href="#index">↑ Index</a>
+</body>
+</html>
